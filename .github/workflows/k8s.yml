@@ -25,7 +25,7 @@ jobs:
           kubectl apply -f kubernetes/backToFuture/ --kubeconfig=kubeconfig --namespace=kong
       - name: Deploy chuck
         run: |
-          kubectl kubectl apply -f kubernetes/chuck/ --kubeconfig=kubeconfig --namespace=kong
+          kubectl apply -f kubernetes/chuck/ --kubeconfig=kubeconfig --namespace=kong
 
 
   
