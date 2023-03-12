@@ -1,0 +1,49 @@
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: admin-acl
+plugin: acl
+config:
+  whitelist: ['app-admin']
+#" | kubectl apply -f -
+
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: plain-user-acl
+plugin: acl
+config:
+  whitelist: ['app-user','app-admin']
+#" | kubectl apply -f -
+
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: admin
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: admin
+credentials:
+  - app-admin-jwt
+  - app-admin-acl
+#" | kubectl apply -f -
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: plain-user
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: plain-user
+credentials:
+  - app-user-jwt
+  - app-user-acl
+#" | kubectl apply -f -
+
+---
