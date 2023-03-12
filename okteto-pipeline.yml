@@ -1,4 +1,7 @@
 deploy:
   #- okteto build -t okteto.dev/hello-world:latest
-  - kubectl apply -f kubernetes/backToFuture/
-  - kubectl apply -f kubernetes/chuck/
+  - kubectl apply -f kubernetes/backToFuture/01_deployment.yaml
+  - kubectl apply -f kubernetes/backToFuture/02_service.yaml
+  - kubectl apply -f kubernetes/chuck/01_deployment.yaml
+  - kubectl apply -f kubernetes/chuck/02_service.yaml
+ 
