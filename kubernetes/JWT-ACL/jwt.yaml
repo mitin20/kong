@@ -16,8 +16,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: kong
 username: admin
-" | kubectl apply -f -
-echo "
+#" | kubectl apply -f -
+#echo "
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
@@ -38,8 +38,8 @@ metadata:
 username: admin
 credentials:
   - app-admin-jwt
-" | kubectl apply -f -
-echo "
+#" | kubectl apply -f -
+#echo "
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
