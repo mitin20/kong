@@ -1,0 +1,52 @@
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: app-jwt
+plugin: jwt
+#" | kubectl apply -f -
+
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: admin
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: admin
+" | kubectl apply -f -
+echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: plain-user
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: plain-user
+#" | kubectl apply -f -
+
+---
+#echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: admin
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: admin
+credentials:
+  - app-admin-jwt
+" | kubectl apply -f -
+echo "
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: plain-user
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: plain-user
+credentials:
+  - app-user-jwt
+#" | kubectl apply -f -
