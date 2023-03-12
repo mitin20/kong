@@ -1,0 +1,4 @@
+deploy:
+  #- okteto build -t okteto.dev/hello-world:latest
+  - kubectl apply -f kubernetes/backToFuture/
+  - kubectl apply -f kubernetes/chuck/
