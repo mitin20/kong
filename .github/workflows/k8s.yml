@@ -1,0 +1,31 @@
+name: Deploy to K8s
+
+on:
+  workflow_dispatch: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+ #     - name: Extract short sha version for tagging
+ #       shell: bash
+ #       run: |
+ #         tagVersion=$(git log -1 --pretty=%h)
+ #         echo "short sha version for tag: $tagVersion"       
+      - name: Copy KUBE_CONFIG
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        run: echo "${KUBE_CONFIG}" | base64 -d > kubeconfig
+      - name: Deploy KONG INGRESS CONTROLLER
+        run: |
+          kubectl create -f https://bit.ly/k4k8s --kubeconfig=kubeconfig
+      - name: Deploy backToFuture
+        run: |
+          kubectl apply -f kubernetes/backToFuture/ --kubeconfig=kubeconfig --namespace=kong
+      - name: Deploy chuck
+        run: |
+          kubectl kubectl apply -f kubernetes/chuck/ --kubeconfig=kubeconfig --namespace=king
+
+
+  
