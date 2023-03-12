@@ -21,9 +21,11 @@ jobs:
         run: |
           kubectl create -f https://bit.ly/k4k8s --kubeconfig=kubeconfig
       - name: Deploy backToFuture
+        if: always()
         run: |
           kubectl apply -f kubernetes/backToFuture/ --kubeconfig=kubeconfig --namespace=kong
       - name: Deploy chuck
+        if: always()
         run: |
           kubectl apply -f kubernetes/chuck/ --kubeconfig=kubeconfig --namespace=kong
 
