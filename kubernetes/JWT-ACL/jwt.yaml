@@ -4,7 +4,10 @@ apiVersion: configuration.konghq.com/v1
 kind: KongPlugin
 metadata:
   name: app-jwt
+  namespace: default  
 plugin: jwt
+config:
+  secret_is_base64: "true"
 #" | kubectl apply -f -
 
 ---
@@ -15,16 +18,10 @@ metadata:
   name: admin
   annotations:
     kubernetes.io/ingress.class: kong
+  namespace: default    
 username: admin
-#" | kubectl apply -f -
-#echo "
-apiVersion: configuration.konghq.com/v1
-kind: KongConsumer
-metadata:
-  name: plain-user
-  annotations:
-    kubernetes.io/ingress.class: kong
-username: plain-user
+credentials:
+- admin-jwt
 #" | kubectl apply -f -
 
 ---
@@ -32,21 +29,13 @@ username: plain-user
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
-  name: admin
+  name: user
   annotations:
     kubernetes.io/ingress.class: kong
-username: admin
+  namespace: default    
+username: user
 credentials:
-  - app-admin-jwt
+- user-jwt
 #" | kubectl apply -f -
-#echo "
-apiVersion: configuration.konghq.com/v1
-kind: KongConsumer
-metadata:
-  name: plain-user
-  annotations:
-    kubernetes.io/ingress.class: kong
-username: plain-user
-credentials:
-  - app-user-jwt
-#" | kubectl apply -f -
+
+
